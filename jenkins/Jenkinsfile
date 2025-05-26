@@ -6,12 +6,18 @@ pipeline {
     stages {
         stage('Build') {
             steps {
-                sh 'mvn -B -DskipTests clean package'
+                script {
+                    def mvnHome = tool 'Maven3'  // Use the name from Global Tool Configuration
+                    sh "${mvnHome}/bin/mvn -B -DskipTests clean package"
+                }
             }
         }
         stage('Test') {
             steps {
-                sh 'mvn test'
+                script {
+                    def mvnHome = tool 'Maven3'
+                    sh "${mvnHome}/bin/mvn test"
+                }
             }
             post {
                 always {
